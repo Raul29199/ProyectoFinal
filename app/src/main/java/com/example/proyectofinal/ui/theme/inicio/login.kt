@@ -2,6 +2,7 @@ package com.example.proyectofinal.ui.theme.inicio
 
 
 import Navegacion.GrafoNavegacion
+import android.media.MediaPlayer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.proyectofinal.R
-import com.example.proyectofinal.ui.theme.ProyectoFinalTheme
 import kotlinx.coroutines.launch
-
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
@@ -31,8 +32,8 @@ fun PantallaInicioSesion(navController: NavHostController) {
     var nombre by remember { mutableStateOf("") }
     var contraseña by remember { mutableStateOf("") }
     var mostrarMensajeError by remember { mutableStateOf(false) }
-
     val scope = rememberCoroutineScope()
+    var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
 
     Column(
         modifier = Modifier
@@ -43,12 +44,10 @@ fun PantallaInicioSesion(navController: NavHostController) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.imageninicio),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(100.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.primary)
+                .size(200.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,11 +84,23 @@ fun PantallaInicioSesion(navController: NavHostController) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        fun toggleMusic(context: Context) {
+
+            mediaPlayer = MediaPlayer.create(context, R.raw.gameboy)
+            mediaPlayer?.start()
+
+        }
+        val context = LocalContext.current
+
 
         Button(
             onClick = {
                 // Navegar a la pantalla de inicio
-                navController.navigate("pantallaInicio")
+                if(contraseña.equals("admin",ignoreCase = true)&&nombre.equals("Admin",ignoreCase = true)){
+                    navController.navigate("pantallaInicio")
+                    toggleMusic(context)
+                }
+
             },
             modifier = Modifier
                 .fillMaxWidth()

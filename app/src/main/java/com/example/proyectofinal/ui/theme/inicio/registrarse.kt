@@ -48,13 +48,11 @@ fun PantallaRegistro(navController: NavHostController) {
     ) {
         // Centrar la imagen
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.imageninicio),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(100.dp)
+                .size(150.dp)
                 .padding(bottom = 16.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.primary)
         )
 
         // OutlinedTextField y otros campos

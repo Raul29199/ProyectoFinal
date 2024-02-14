@@ -41,6 +41,7 @@ fun GrafoNavegacion() {
             pantallaDetalles(navController,pokemonNombre)
 
         }
+
         // Otras composables y rutas según sea necesario creacionP/{consola}
     }
 }
