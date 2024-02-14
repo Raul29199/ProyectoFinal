@@ -1,7 +1,6 @@
 package PantallaPrincipal
 
-import InfoArray.Juego
-import InfoArray.lista
+import com.example.proyectofinal.ui.theme.BBDD.Juego
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.proyectofinal.ui.theme.BBDD.lista
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,8 +26,8 @@ fun pantallaInicio(navController: NavHostController) {
     var nombre by remember { mutableStateOf("") }
     var tipoSeleccionado by remember { mutableStateOf(setOf<String>()) }
     var fechaSeleccionada by remember { mutableStateOf(Calendar.getInstance()) }
-    val consolas = listOf("N64", "WII", "GBA", "GCN", "GCN", "NDS", "WiiU", "3DS", "Switch ")
-    var seleccionconsola by remember { mutableStateOf(consolas[0]) }
+    val consolas = listOf("Game Boy", "Game Boy Color", "Game Boy Advance", "Nintendo DS", "Nintendo 3DS", "Nintendo Switch")
+    var seleccionconsola by remember { mutableStateOf<String?>(null) }
     var buscador by remember { mutableStateOf("") }
     var menuDesplegado by remember { mutableStateOf(false) }
     var pokemonSeleccionado by remember { mutableStateOf(mutableSetOf<String>()) }
@@ -75,9 +75,9 @@ fun pantallaInicio(navController: NavHostController) {
                     .weight(1f)
             ) {
 
-                items(lista.filter { it.nombre.equals(seleccionconsola, ignoreCase = true) }) { pokemon ->
+                items(lista.filter { it.plastaformas.contains(seleccionconsola!!,ignoreCase = true) }) { pokemon ->
                     RegionItem(
-                        region = pokemon,
+                        consola = pokemon,
                         isChecked = pokemon.nombre in pokemonSeleccionado,
                         onCheckedChange = { isChecked ->
                             if (isChecked) {
@@ -100,7 +100,7 @@ fun pantallaInicio(navController: NavHostController) {
             ) {
                 items(lista) { pokemon ->
                     RegionItem(
-                        region = pokemon,
+                        consola = pokemon,
                         isChecked = pokemon.nombre in pokemonSeleccionado,
                         onCheckedChange = { isChecked ->
                             if (isChecked) {
@@ -124,13 +124,15 @@ fun pantallaInicio(navController: NavHostController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(onClick = {
-                navController.navigate("pantallaCreacionPokemon/$seleccionconsola") {
-                    launchSingleTop = true
+                navController.navigate("creacionP/$seleccionconsola"){
                     popUpTo(navController.graph.startDestinationId) {
                         saveState = true
                     }
+                    launchSingleTop = true
                 }
-            }) {
+
+                }
+            ) {
                 Text("Añadir")
             }
 
@@ -146,7 +148,7 @@ fun pantallaInicio(navController: NavHostController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegionItem(region: Juego, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit, onClick: () -> Unit) {
+fun RegionItem(consola: Juego, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit, onClick: () -> Unit) {
     var checked by remember { mutableStateOf(isChecked) }
 
     Card(
@@ -154,7 +156,7 @@ fun RegionItem(region: Juego, isChecked: Boolean, onCheckedChange: (Boolean) -> 
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                // Solo ejecuta el código onClick si se hace clic en la fila pero no en la casilla de verificación
+
                 onClick()
             },
         shape = RoundedCornerShape(8.dp)
@@ -172,7 +174,7 @@ fun RegionItem(region: Juego, isChecked: Boolean, onCheckedChange: (Boolean) -> 
                     .weight(1f)
             ) {
                 Image(
-                    painter = painterResource(id = region.hashCode()),
+                    painter = painterResource(id = consola.imagen),
                     contentDescription = null,
                     modifier = Modifier
                         .size(50.dp)
@@ -182,7 +184,7 @@ fun RegionItem(region: Juego, isChecked: Boolean, onCheckedChange: (Boolean) -> 
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                Text(text = region.nombre, style = MaterialTheme.typography.titleMedium)
+                Text(text = consola.nombre, style = MaterialTheme.typography.titleMedium)
             }
 
             Spacer(modifier = Modifier.width(16.dp))

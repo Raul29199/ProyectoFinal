@@ -125,8 +125,8 @@ data class DetallesPokemon(
 // Función de ejemplo para obtener detalles del Pokémon
 fun obtenerDetallesPokemon(nombrePokemon: String?): DetallesPokemon? {
     // Implementa lógica para buscar detalles del Pokémon basado en el nombre
-    // Puedes obtener detalles de una lista, base de datos, red, etc.
-    // Aquí hay un ejemplo básico con una lista estática
+    // Puedes obtener detalles de una com.example.proyectofinal.ui.theme.BBDD.getLista, base de datos, red, etc.
+    // Aquí hay un ejemplo básico con una com.example.proyectofinal.ui.theme.BBDD.getLista estática
     return when (nombrePokemon) {
             "Pokémon Azul" -> DetallesPokemon(
                 "Pokémon Azul",

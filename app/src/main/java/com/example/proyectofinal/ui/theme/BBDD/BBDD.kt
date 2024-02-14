@@ -1,7 +1,8 @@
-package InfoArray
+package com.example.proyectofinal.ui.theme.BBDD
 
 import androidx.compose.runtime.mutableStateListOf
 import com.example.proyectofinal.R
+import com.example.proyectofinal.ui.theme.BBDD.Juego
 import java.util.Date
 
 
